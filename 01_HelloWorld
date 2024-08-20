@@ -1,0 +1,9 @@
+
+void setup() {
+  Serial.begin(9600);     //initialize serial communicaton w baudrate 9600bps
+}
+
+void loop() {
+  Serial.print("HelloWorld!");
+  delay(3000);
+}
