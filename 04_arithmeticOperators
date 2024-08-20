@@ -1,0 +1,24 @@
+
+int a = 10;
+int b = 20;
+float c = a/b; //a should be float to get the result in float
+//float c = (float)a/b;
+
+void setup() {
+
+  Serial.begin(9600);
+
+}
+
+void loop() {
+
+  Serial.println(a+b);
+  Serial.println(a-b);
+  Serial.println(a*b);
+  Serial.println(c);
+  
+  Serial.println(a++);
+  Serial.println(b--);
+  delay(10000);
+  
+}
