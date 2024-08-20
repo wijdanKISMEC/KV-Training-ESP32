@@ -1,0 +1,16 @@
+#define touchSensor 32
+
+int sensorVal = 0;
+
+void setup() {
+  pinMode(touchSensor, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  //Serial.println(digitalRead(pin);
+  
+  sensorVal = digitalRead(touchSensor);
+  Serial.println(sensorVal);
+  delay(500);
+}
