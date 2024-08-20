@@ -1,0 +1,47 @@
+int a = 10;
+int b = 20;
+bool c = true;
+bool d = false;
+bool e = true;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  Serial.println("Structure 1 :");
+
+    if (!c) {
+       Serial.println("c is false");
+    }
+    else {
+       Serial.println("c is true");
+    }
+
+  delay(10000);
+  Serial.println("Structure 2 :");
+
+    if ( d || e) {
+       Serial.println("both or any is true");
+    }
+    else {
+       Serial.println("both  is false");
+    }
+
+  delay(10000);
+  Serial.println("Structure 3 :");
+
+    if (a==b || a>b) {
+       Serial.println("both or any comparison is true");
+    }
+    else if (a!=b && a<b) {
+       Serial.println("both comparison is true");
+    }
+    else {
+       Serial.println("(if,else if) comparison is false");
+    }
+  
+  delay(10000);
+  
+}
