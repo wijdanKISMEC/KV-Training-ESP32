@@ -1,0 +1,19 @@
+#define touchSensor 35
+
+int sensorVal = 0;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(touchSensor, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  //Serial.println(digitalRead(pin);
+  
+  sensorVal = digitalRead(touchSensor);
+  digitalWrite(LED_BUILTIN, sensorVal);
+  Serial.println(sensorVal);
+  
+  delay(500);
+}
