@@ -1,0 +1,30 @@
+int a = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+}
+
+void loop() {
+
+ paparkan(20);
+ delay(5000);
+  
+ int resultHere;
+ resultHere = myMultiplyFunction(20,10);
+ paparkan(resultHere);
+ delay(5000);
+ 
+}
+
+void paparkan(int par1)
+{
+  Serial.println("try");
+  Serial.println(par1); 
+}
+
+int myMultiplyFunction(int x, int y){
+  int result;
+  result = x * y;
+  return result;
+}
