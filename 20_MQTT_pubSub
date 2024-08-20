@@ -1,0 +1,111 @@
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+// Replace with your WiFi credentials
+#define ssid "industry4"
+#define password "industryiot#4"
+
+// Replace with your MQTT broker details
+#define clientName "ESP32_wijdan"
+#define mqtt_server "broker.hivemq.com"
+
+// MQTT topics
+#define pubTopic "kismec/lab3/temp"       // Topic to publish temperature readings
+#define subTopic "esp32/name"             // Topic to subscribe for controlling LED
+
+#define ledPin 2  // GPIO pin where the LED is connected
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+long lastMsg = 0;
+int reading = 0;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);  // Initialize the LED pin as an output
+
+  setup_wifi();
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);  // Set the callback function to handle incoming messages
+}
+
+void setup_wifi() {
+  delay(10);
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void callback(char* topic, byte* message, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String messageTemp;
+
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
+  }
+  Serial.println();
+
+  // If a message is received on the subscribed topic, check if it's "on" or "off" and control the LED
+  if (String(topic) == subTopic) {
+    Serial.print("Changing LED state to ");
+    if (messageTemp == "on") {
+      Serial.println("on");
+      digitalWrite(ledPin, HIGH);
+    } else if (messageTemp == "off") {
+      Serial.println("off");
+      digitalWrite(ledPin, LOW);
+    }
+  }
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (client.connect(clientName)) {
+      Serial.println("connected");
+      // Once connected, subscribe to the topic
+      client.subscribe(subTopic);
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      delay(5000);
+    }
+  }
+}
+
+void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();  // Check for incoming messages and keep the client connected
+
+  long now = millis();
+  if (now - lastMsg > 5000) {
+    lastMsg = now;
+
+    reading = random(1, 20);  // Simulate a sensor reading
+
+    // Convert the value to a char array
+    char payload[8];
+    dtostrf(reading, 1, 2, payload);
+    Serial.print("Payload: ");
+    Serial.println(payload);
+    client.publish(pubTopic, payload);  // Publish the reading to the MQTT broker
+  }
+}
