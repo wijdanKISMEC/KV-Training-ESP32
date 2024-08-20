@@ -1,0 +1,14 @@
+int potVal = 0;
+
+void setup() {
+  Serial.begin(9600);
+
+}
+
+void loop() {
+
+  potVal = analogRead(32);
+  Serial.println(potVal);
+  delay(500);
+
+}
