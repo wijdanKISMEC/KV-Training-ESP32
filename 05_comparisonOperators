@@ -1,0 +1,23 @@
+
+int a = 10;
+int b = 20;
+
+void setup() {
+
+  Serial.begin(9600);
+
+}
+
+void loop() {
+
+  Serial.print("a is not equal to b =");
+  Serial.println(a!=b);
+  Serial.print("a is equal to b =");
+  Serial.println(a==b);
+  Serial.print("a is greater then b =");
+  Serial.println(a>b);
+  Serial.print("a is less then b =");
+  Serial.println(a<b);
+  delay(10000);
+  
+}
