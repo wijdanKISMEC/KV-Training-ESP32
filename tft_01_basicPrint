@@ -25,7 +25,7 @@ void loop() {
   
   
   tft.setTextColor(TFT_BLACK,TFT_WHITE);    //tft.setTextFont(7);
-  tft.println(""); // Should print DEADBEEF
+  tft.println(""); 
   tft.print("  Temp: ");
   tft.println("20 Celcius");
   tft.print("  Humi: ");
