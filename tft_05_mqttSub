@@ -1,0 +1,124 @@
+
+#include <TFT_eSPI.h> // Graphics and font library for ST7735 driver chip
+#include <SPI.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+// Replace the next variables with your SSID/Password combination
+const char* ssid = "industry4";
+const char* password = "industryiot#4";
+
+// Add your MQTT Broker IP address, example:
+const char* mqtt_server = "broker.hivemq.com";
+const char* topicSub = "esp32/tft";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+long lastMsg = 0;
+char msg[50];
+int value = 0;
+int reading = 0;
+
+
+TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
+
+void setup(void) {
+  Serial.begin(115200);
+  setup_wifi();
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
+  tft.init();
+  tft.setRotation(1);
+  
+}
+
+void loop() {
+
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+}
+
+
+
+void setup_wifi() {
+  delay(10);
+  // We start by connecting to a WiFi network
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void callback(char* topic, byte* message, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String messageTemp;
+  
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
+  }
+  Serial.println();
+
+  // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
+  // Changes the output state according to the message
+  // Fill screen with grey so we can see the effect of printing with and without 
+  // a background colour defined
+  tft.fillScreen(TFT_WHITE);
+  
+  // Set "cursor" at top left corner of display (0,0) and select font 2
+  // (cursor will move to next line automatically during printing with 'tft.println'
+  //  or stay on the line is there is room for the text with tft.print)
+  tft.setCursor(0, 0, 1);
+  // Set the font colour to be white with a black background, set text size multiplier to 1
+  tft.setTextColor(TFT_RED,TFT_BLACK);  tft.setTextSize(2);
+  // We can now plot text on screen using the "print" class
+  tft.println("     WELCOME TO     ");
+  tft.println("KISMEC SUNGAI PETANI");
+  
+//  // Set the font colour to be yellow with no background, set to font 7
+//  tft.setTextColor(TFT_YELLOW); tft.setTextFont(2);
+//  tft.println(1234.56);
+  
+  // Set the font colour to be red with black background, set to font 4
+  //tft.setTextSize(1.8);
+  
+  tft.setTextColor(TFT_BLACK,TFT_WHITE);    //tft.setTextFont(7);
+  tft.println(""); // Should print DEADBEEF
+  tft.print(" Message: ");
+  tft.println(messageTemp);
+
+}
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("ESPWI")) {
+      Serial.println("connected");
+      // Subscribe
+      client.subscribe(topicSub);
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
