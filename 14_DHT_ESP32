@@ -1,0 +1,34 @@
+#include "DHTesp.h" // Click here to get the library: http://librarymanager/All#DHTesp
+
+DHTesp dht;
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println("Status\tHumidity (%)\tTemperature (C)\t(F)\tHeatIndex (C)\t(F)");
+
+   //vcc - 3v3, sig - 22, gnd - gnd, nc- no connection
+  dht.setup(2, DHTesp::DHT22); // Connect DHT sensor to GPIO 2
+}
+
+void loop()
+{
+  delay(3000);
+
+  float humidity = dht.getHumidity();
+  float temperature = dht.getTemperature();
+
+//  Serial.print(dht.getStatusString());
+//  Serial.print("\t");
+  Serial.print(humidity, 1);
+  Serial.print("\t\t");
+  Serial.println(temperature, 1);
+//  Serial.print("\t\t");
+//  Serial.print(dht.toFahrenheit(temperature), 1);
+//  Serial.print("\t\t");
+//  Serial.print(dht.computeHeatIndex(temperature, humidity, false), 1);
+//  Serial.print("\t\t");
+//  Serial.println(dht.computeHeatIndex(dht.toFahrenheit(temperature), humidity, true), 1);
+  delay(2000);
+}
