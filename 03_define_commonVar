@@ -1,0 +1,25 @@
+#define val 100
+
+//Global Variables
+int gVar_value1 = 400;
+float gVar_value2 = 0.3;
+
+void setup(){
+  int varA = 20;
+  Serial.begin(9600);   //initialize serial communication with 9600 bps
+  delay(5000);          //wait 5 seconds
+  Serial.println(varA); //20
+
+}
+
+void loop(){
+  int varA = 40;
+  Serial.println(varA); //40
+  delay(5000);
+  
+  Serial.println(val);
+  delay(5000);
+  Serial.println(gVar_value1);
+  delay(5000);                           
+
+}
