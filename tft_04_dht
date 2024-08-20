@@ -1,0 +1,36 @@
+#include <TFT_eSPI.h> // Graphics and font library for ST7735 driver chip
+#include <SPI.h>
+#include "DHTesp.h" // Click here to get the library: http://librarymanager/All#DHTesp
+
+DHTesp dht;
+TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
+
+void setup(void) {
+  dht.setup(2, DHTesp::DHT22); // Connect DHT sensor to GPIO 2
+  tft.init();
+  tft.setRotation(1);
+  tft.fillScreen(TFT_WHITE);
+  
+}
+
+void loop() {
+  float humidity = dht.getHumidity();
+  float temperature = dht.getTemperature();
+
+  tft.setCursor(0, 0, 1);
+  tft.setTextColor(TFT_RED,TFT_BLACK);  tft.setTextSize(2);
+
+  tft.println("     WELCOME TO     ");
+  tft.println("KISMEC SUNGAI PETANI");
+  
+  
+  tft.setTextColor(TFT_BLACK,TFT_WHITE);
+  tft.println(""); 
+  tft.print("  Temp: ");
+  tft.println(humidity);
+  tft.print("  Humi: ");
+  tft.println(temperature);
+  
+  delay(1000);
+
+}
