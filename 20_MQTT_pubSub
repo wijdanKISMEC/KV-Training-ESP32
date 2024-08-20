@@ -48,6 +48,24 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
+void reconnectWiFi() {
+  // Attempt to reconnect to WiFi if disconnected
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Reconnecting to WiFi...");
+    WiFi.disconnect();
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("Reconnected to WiFi");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+  }
+}
+
 void callback(char* topic, byte* message, unsigned int length) {
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
@@ -90,6 +108,10 @@ void reconnect() {
 }
 
 void loop() {
+  // Reconnect to WiFi if the connection is lost
+  reconnectWiFi();
+
+  // Reconnect to MQTT if the connection is lost
   if (!client.connected()) {
     reconnect();
   }
