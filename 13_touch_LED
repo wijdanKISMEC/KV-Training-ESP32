@@ -1,9 +1,10 @@
-#define touchSensor 35
+#define touchSensor 33
+#define redLED 32
 
 int sensorVal = 0;
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(redLED, OUTPUT);
   pinMode(touchSensor, INPUT);
   Serial.begin(9600);
 }
@@ -12,7 +13,7 @@ void loop() {
   //Serial.println(digitalRead(pin);
   
   sensorVal = digitalRead(touchSensor);
-  digitalWrite(LED_BUILTIN, sensorVal);
+  digitalWrite(redLED, sensorVal);
   Serial.println(sensorVal);
   
   delay(500);
