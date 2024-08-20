@@ -1,0 +1,16 @@
+#define button 0
+
+int buttonVal = 0;
+
+void setup() {
+  pinMode(touchSensor, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  //Serial.println(digitalRead(pin);
+  
+  buttonVal = digitalRead(button);
+  Serial.println(buttoVal);
+  delay(500);
+}
