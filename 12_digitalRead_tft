@@ -1,0 +1,64 @@
+
+
+#include <TFT_eSPI.h> // Graphics and font library for ST7735 driver chip
+#include <SPI.h>
+
+TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
+
+const int buttonPin = 0;     // the number of the pushbutton pin
+
+// variables will change:
+int buttonState = 0;         // variable for reading the pushbutton status
+int count_value =0;
+int prestate =0;
+
+
+
+
+void setup(void) {
+  tft.init();
+  tft.setRotation(1);
+  pinMode(buttonPin, INPUT);
+}
+
+void loop() {
+
+ buttonState = !digitalRead(buttonPin);
+
+  // check if the pushbutton is pressed. If it is, then the buttonState is HIGH:
+  if (buttonState == HIGH && prestate == 0) {
+    count_value++;
+      // Fill screen with grey so we can see the effect of printing with and without 
+  // a background colour defined
+  tft.fillScreen(TFT_WHITE);
+  
+  // Set "cursor" at top left corner of display (0,0) and select font 2
+  // (cursor will move to next line automatically during printing with 'tft.println'
+  //  or stay on the line is there is room for the text with tft.print)
+  tft.setCursor(0, 0, 1);
+  // Set the font colour to be white with a black background, set text size multiplier to 1
+  tft.setTextColor(TFT_RED,TFT_BLACK);  tft.setTextSize(2);
+  // We can now plot text on screen using the "print" class
+  tft.println("     WELCOME TO     ");
+  tft.println("KISMEC SUNGAI PETANI");
+  
+//  // Set the font colour to be yellow with no background, set to font 7
+//  tft.setTextColor(TFT_YELLOW); tft.setTextFont(2);
+//  tft.println(1234.56);
+  
+  // Set the font colour to be red with black background, set to font 4
+  //tft.setTextSize(1.8);
+  
+  tft.setTextColor(TFT_BLACK,TFT_WHITE);    //tft.setTextFont(7);
+  tft.println(""); // Should print DEADBEEF
+  
+
+  tft.print("  Count: ");
+  tft.println(count_value);
+    Serial.println(count_value);
+    delay(100);
+    prestate = 1;
+  } else if(buttonState == LOW) {
+    prestate = 0;
+  }
+}
