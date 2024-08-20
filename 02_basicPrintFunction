@@ -1,0 +1,16 @@
+void setup() {
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  Serial.println("print new line");
+  Serial.print("Example  - \t (tab) - \n (newLine) -");
+  Serial.print('\n');                     
+  Serial.print("Selamat Datang");                          
+  Serial.print('\t');                     
+  Serial.print("ke");                         
+  Serial.print('\t');                      
+  Serial.print("KISMEC\n");               
+  delay(5000);
+}
