@@ -27,9 +27,9 @@ void loop() {
   tft.setTextColor(TFT_BLACK,TFT_WHITE);
   tft.println(""); 
   tft.print("  Temp: ");
-  tft.println(humidity);
-  tft.print("  Humi: ");
   tft.println(temperature);
+  tft.print("  Humi: ");
+  tft.println(humidity);
   
   delay(1000);
 
