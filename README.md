@@ -2,4 +2,5 @@
 
 
 Configure type of TFT Display in the library User_Setup_Select by editing the code using any text editor.
+(https://github.com/wijdanKISMEC/KV-Training-ESP32/blob/main/TFT%20Edit.png?raw=true)
 
