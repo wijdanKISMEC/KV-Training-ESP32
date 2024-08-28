@@ -3,6 +3,8 @@
 
 Configure type of TFT Display in the library User_Setup_Select by editing the code using any text editor.
 ![Library Directory](https://github.com/wijdanKISMEC/KV-Training-ESP32/blob/main/TFT%20Library%20Directory.png?raw=true)
+
+
 Comment the default TFT Display and uncomment the TTGO Display Setup.
 ![Comment](https://github.com/wijdanKISMEC/KV-Training-ESP32/blob/main/TFT%20Edit.png?raw=true)
 
